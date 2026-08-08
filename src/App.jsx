@@ -80,13 +80,19 @@ function useExperience(root, view, loading) {
 
       const fitHeroTitle = () => {
         const title = root.current?.querySelector(".hero-title");
+        const hero = root.current?.querySelector(".hero");
         const spans = title ? [...title.querySelectorAll("span")] : [];
         if (!title || !spans.length) return;
         const maxWidth = title.clientWidth * 0.995;
+        // Cap by available height too, so short/landscape viewports don't let the
+        // width-fit search grow the title past the hero's own pinned viewport.
+        const maxHeight = hero ? hero.clientHeight * 0.62 : Infinity;
         const fits = (size) => {
           title.style.fontSize = `${size}px`;
           const rects = spans.map((span) => span.getBoundingClientRect());
-          return rects.every((r) => r.width <= maxWidth);
+          const widthOk = rects.every((r) => r.width <= maxWidth);
+          const heightOk = title.scrollHeight <= maxHeight;
+          return widthOk && heightOk;
         };
         let lo = 20;
         let hi = 500;
@@ -95,6 +101,14 @@ function useExperience(root, view, loading) {
           const mid = (lo + hi) / 2;
           if (fits(mid)) { best = mid; lo = mid; } else { hi = mid; }
         }
+        // The footer repeats this exact wordmark via a plain CSS
+        // clamp(130px, 15.6vw, 275px) on its own last line (see .footer-title
+        // span:last-child). On tall/narrow viewports (tablet portrait) the
+        // width-fit search above can settle on a noticeably smaller size than
+        // that; float up to the footer's own scale whenever there's still
+        // room to do so without breaking the width/height fit.
+        const footerFloor = Math.min(Math.max(window.innerWidth * 0.156, 130), 275) / 1.02;
+        if (footerFloor > best && fits(footerFloor)) best = footerFloor;
         title.style.fontSize = `${best}px`;
       };
       fitHeroTitle();
@@ -102,7 +116,7 @@ function useExperience(root, view, loading) {
       removeResizeListener = () => window.removeEventListener("resize", fitHeroTitle);
 
       gsap.fromTo(".header", { y: -80, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, delay: 0.25, ease: "power3.out" });
-      gsap.fromTo(".hero-kicker span, .hero-title span", { yPercent: 120 }, { yPercent: 0, duration: 1.25, stagger: 0.07, ease: "power4.out", delay: 0.2 });
+      gsap.fromTo(".hero-title span", { yPercent: 120 }, { yPercent: 0, duration: 1.25, stagger: 0.07, ease: "power4.out", delay: 0.2 });
       gsap.to(".hero-media", { scale: 1.12, yPercent: 7, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } });
       gsap.to(".hero-title", { yPercent: -22, opacity: 0.2, ease: "none", scrollTrigger: { trigger: ".hero", start: "35% top", end: "bottom top", scrub: true } });
       ScrollTrigger.create({
@@ -125,17 +139,27 @@ function useExperience(root, view, loading) {
         .fromTo(".values-title", { scale: 2.45, y: "10vh" }, { scale: 1, y: 0, duration: 0.16, ease: "none" }, 0)
         .to(".values-media img, .values-media video", { scale: 1.08, ease: "none" }, 0);
       valueCopies.forEach((item, index) => {
-        valueTl.fromTo(item, { opacity: 0, y: 45, xPercent: -50 }, { opacity: 1, y: 0, xPercent: -50, duration: 0.12 }, index * 0.26)
-          .to(item, { opacity: index === valueCopies.length - 1 ? 1 : 0, y: -35, xPercent: -50, duration: 0.12 }, index * 0.26 + 0.17);
+        // xPercent is intentionally left out here: it never changes across these
+        // keyframes, and tweening a "constant" transform axis makes GSAP layer its
+        // own -50% on top of the CSS translateX(-50%) that already centers .value-copy,
+        // pushing the block off-center. Only opacity/y need to animate.
+        valueTl.fromTo(item, { opacity: 0, y: 45 }, { opacity: 1, y: 0, duration: 0.12 }, index * 0.26)
+          .to(item, { opacity: index === valueCopies.length - 1 ? 1 : 0, y: -35, duration: 0.12 }, index * 0.26 + 0.17);
       });
 
 
 
 
-      if (window.innerWidth > 767) {
+      // gsap.matchMedia() (rather than a one-time innerWidth check) keeps the
+      // horizontal pin in sync if the viewport crosses 768px via resize,
+      // rotation, or a foldable unfolding, instead of leaving a stale
+      // desktop-only trigger. Nesting it inside this gsap.context() means
+      // scope.revert() below also reverts the matchMedia instance.
+      gsap.matchMedia().add("(min-width: 768px)", () => {
         const track = document.querySelector(".rooms-track");
+        if (!track) return;
         gsap.to(track, { x: () => -(track.scrollWidth - window.innerWidth + 48), ease: "none", scrollTrigger: { trigger: ".rooms", start: "top top", end: () => `+=${track.scrollWidth}`, pin: ".rooms-stage", scrub: 1, invalidateOnRefresh: true } });
-      }
+      });
 
       // Yoga Reveal Sequence
       const reveal = gsap.timeline({
@@ -546,7 +570,36 @@ export function App() {
   const [view, setView] = useState("home");
   const [active, setActive] = useState("top");
   const [faq, setFaq] = useState(0);
+  const [toastActive, setToastActive] = useState(false);
+  const toastTimeoutRef = useRef(null);
+
   useExperience(root, view, loading);
+
+  const triggerToast = () => {
+    setToastActive(true);
+    if (toastTimeoutRef.current) {
+      clearTimeout(toastTimeoutRef.current);
+    }
+    toastTimeoutRef.current = setTimeout(() => {
+      setToastActive(false);
+    }, 3000);
+  };
+
+  const handleSetView = (newView) => {
+    if (newView === "booking") {
+      triggerToast();
+    } else {
+      setView(newView);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (toastTimeoutRef.current) {
+        clearTimeout(toastTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (view !== "home") return;
@@ -564,9 +617,9 @@ export function App() {
     )}
     <div className="site-content">
       <div className="cursor-glow" />
-    <Header active={active} view={view} setView={setView} />
+    <Header active={active} view={view} setView={handleSetView} />
     {view === "booking" ? (
-      <BookingPage setView={setView} />
+      <BookingPage setView={handleSetView} />
     ) : (
       <main>
       <section id="top" className="hero">
@@ -632,7 +685,7 @@ export function App() {
               <img src={room.image} alt={`${room.name} accommodation`} />
               <div className="room-top"><span>0{i+1}</span><h3>{room.name}</h3></div>
               <div className="room-meta"><span><small>Type</small>{room.type}</span><span><small>Bed</small>{room.bed}</span><span><small>Size</small>{room.size}</span></div>
-              <button onClick={() => { setView("booking"); window.scrollTo({ top: 0, behavior: "instant" }); }}>Inquire stay ↗</button>
+              <button onClick={() => { handleSetView("booking"); window.scrollTo({ top: 0, behavior: "instant" }); }}>Inquire stay ↗</button>
             </article>)}
           </div>
         </div>
@@ -649,26 +702,28 @@ export function App() {
       </section>
 
       <section id="practice" className="practice" aria-label="Yoga practice benefits">
-        <div className="benefit-column benefit-column-left">
-          {benefits.slice(0, 2).map((item) => (
-            <article className="benefit" key={item.title}>
-              <h2>{item.title}</h2>
-              <p>{item.copy}</p>
-            </article>
-          ))}
-        </div>
+        <div className="practice-container">
+          <div className="benefit-column benefit-column-left">
+            {benefits.slice(0, 2).map((item) => (
+              <article className="benefit" key={item.title}>
+                <h2>{item.title}</h2>
+                <p>{item.copy}</p>
+              </article>
+            ))}
+          </div>
 
-        <figure className="practice-image">
-          <img src={media.hikerMountain} alt="Trekker looking at highlands lake" />
-        </figure>
+          <figure className="practice-image">
+            <img src={media.hikerMountain} alt="Trekker looking at highlands lake" />
+          </figure>
 
-        <div className="benefit-column benefit-column-right">
-          {benefits.slice(2).map((item) => (
-            <article className="benefit" key={item.title}>
-              <h2>{item.title}</h2>
-              <p>{item.copy}</p>
-            </article>
-          ))}
+          <div className="benefit-column benefit-column-right">
+            {benefits.slice(2).map((item) => (
+              <article className="benefit" key={item.title}>
+                <h2>{item.title}</h2>
+                <p>{item.copy}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -713,7 +768,12 @@ export function App() {
       </section>
 
       <section id="faq" className="faq cream-section section-pad">
-        <h2>FAQ</h2><div className="faq-list">{faqs.map(([question,answer],i)=><article className={`faq-item ${faq===i?'open':''}`} key={question}><button onClick={()=>setFaq(faq===i?-1:i)} aria-expanded={faq===i}><span>{faq===i&&<i/>}{question}</span><b>+</b></button><div className="faq-answer"><p>{answer}</p></div></article>)}</div>
+        <div className="faq-container">
+          <h2>FAQ</h2>
+          <div className="faq-list">
+            {faqs.map(([question,answer],i)=><article className={`faq-item ${faq===i?'open':''}`} key={question}><button onClick={()=>setFaq(faq===i?-1:i)} aria-expanded={faq===i}><span>{faq===i&&<i/>}{question}</span><b>+</b></button><div className="faq-answer"><p>{answer}</p></div></article>)}
+          </div>
+        </div>
       </section>
 
       <footer className="footer">
@@ -728,5 +788,11 @@ export function App() {
     </main>
     )}
     </div>
+    {toastActive && (
+      <div className="dev-toast">
+        <span className="dev-toast-icon">🛠️</span>
+        <span className="dev-toast-text">this section under development</span>
+      </div>
+    )}
   </div>;
 }

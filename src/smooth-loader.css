@@ -2,6 +2,11 @@ html,
 body,
 #root {
   margin: 0;
+}
+
+html.loader-active,
+html.loader-active body,
+html.loader-active #root {
   background: #ffffff;
 }
 

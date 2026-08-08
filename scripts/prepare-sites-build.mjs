@@ -1,5 +1,4 @@
-#!/usr/bin/env node
-import { copyFileSync, existsSync, mkdirSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, cpSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -18,4 +17,7 @@ mkdirSync(path.join(dist, ".openai"), { recursive: true });
 copyFileSync(worker, path.join(dist, "server", "index.js"));
 copyFileSync(hosting, path.join(dist, ".openai", "hosting.json"));
 
-console.log("Prepared Sites build: dist/server/index.js and dist/.openai/hosting.json");
+// Copy client files to root of dist for generic hosting platform auto-detection (Vercel)
+cpSync(path.join(dist, "client"), dist, { recursive: true });
+
+console.log("Prepared Sites build and copied client assets to dist root.");

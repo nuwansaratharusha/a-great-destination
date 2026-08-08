@@ -31,7 +31,7 @@ export default function LoadingAnimation({ onComplete }) {
     const context = gsap.context(() => {
       gsap.set(".loader-brand", {
         opacity: 0,
-        scale: 0.92,
+        scale: 0.85,
       });
 
       const timeline = gsap.timeline({
@@ -45,123 +45,95 @@ export default function LoadingAnimation({ onComplete }) {
       });
 
       timeline
-        // Percentage milestones
-        .to(
-          progress,
-          {
-            value: 38,
-            duration: 0.46,
-            ease: "none",
-            onUpdate: updatePercentage,
-          },
-          0
-        )
-        .to(
-          progress,
-          {
-            value: 86,
-            duration: 0.46,
-            ease: "none",
-            onUpdate: updatePercentage,
-          },
-          0.46
-        )
-        .to(
-          progress,
-          {
-            value: 99,
-            duration: 0.46,
-            ease: "none",
-            onUpdate: updatePercentage,
-          },
-          0.92
-        )
+        // Smooth continuous percentage count
         .to(
           progress,
           {
             value: 100,
-            duration: 0.15,
-            ease: "none",
+            duration: 1.8,
+            ease: "power2.out",
             onUpdate: updatePercentage,
           },
-          1.75
+          0
         )
 
         // Moving image collage
         .fromTo(
           ".loader-image-a",
           { yPercent: -142 },
-          { yPercent: 0, duration: 0.48, ease: "power3.out" },
+          { yPercent: 0, duration: 0.52, ease: "power2.out" },
           0.08
         )
         .to(
           ".loader-image-a",
-          { yPercent: -132, duration: 0.52 },
-          0.58
+          { yPercent: -132, duration: 0.56, ease: "power2.inOut" },
+          0.6
         )
         .fromTo(
           ".loader-image-b",
           { yPercent: 146 },
-          { yPercent: 0, duration: 0.56 },
+          { yPercent: 0, duration: 0.6, ease: "power2.out" },
           0.48
         )
         .fromTo(
           ".loader-image-c",
           { yPercent: 140 },
-          { yPercent: 0, duration: 0.54 },
+          { yPercent: 0, duration: 0.58, ease: "power2.out" },
           0.76
         )
         .to(
           ".loader-image-b",
-          { yPercent: -122, duration: 0.55 },
-          1.04
+          { yPercent: -122, duration: 0.58, ease: "power2.inOut" },
+          1.08
         )
         .fromTo(
           ".loader-image-d",
           { yPercent: 142 },
-          { yPercent: 0, duration: 0.55 },
-          1.04
+          { yPercent: 0, duration: 0.58, ease: "power2.out" },
+          1.08
         )
         .to(
           ".loader-image-c",
-          { yPercent: -128, duration: 0.54 },
-          1.28
+          { yPercent: -128, duration: 0.58, ease: "power2.inOut" },
+          1.34
         )
         .fromTo(
           ".loader-image-e",
           { yPercent: 150 },
-          { yPercent: 0, duration: 0.5 },
-          1.26
+          { yPercent: 0, duration: 0.54, ease: "power2.out" },
+          1.32
         )
         .to(
           ".loader-image-d, .loader-image-e",
-          { yPercent: -120, duration: 0.42 },
-          1.68
+          { yPercent: -120, duration: 0.48, ease: "power2.inOut" },
+          1.76
         )
 
         // Brand transition
         .to(
           ".loader-collage",
-          { opacity: 0, duration: 0.18, ease: "none" },
-          1.88
+          { opacity: 0, duration: 0.22, ease: "power2.out" },
+          1.96
         )
         .to(
           ".loader-percentage",
           {
             top: "calc(100% - 34px)",
             scale: 0.78,
-            duration: 0.34,
+            duration: 0.4,
+            ease: "power2.out",
           },
-          1.86
+          1.94
         )
         .to(
           ".loader-brand",
           {
             opacity: 1,
             scale: 1,
-            duration: 0.38,
+            duration: 0.5,
+            ease: "power2.out",
           },
-          1.94
+          2.02
         )
 
         // Reveal website
@@ -169,10 +141,10 @@ export default function LoadingAnimation({ onComplete }) {
           loaderRef.current,
           {
             yPercent: -100,
-            duration: 0.82,
+            duration: 0.9,
             ease: "power4.inOut",
           },
-          2.34
+          2.56
         );
     }, loaderRef);
 
@@ -212,8 +184,7 @@ export default function LoadingAnimation({ onComplete }) {
       </div>
 
       <div className="loader-brand">
-        <img src="/assets/logo/A Great Destination logo.png" alt="" />
-        <span>A Great Destination</span>
+        <img src="/assets/logo/A Great Destination logo.png" alt="A Great Destination Logo" />
       </div>
     </div>
   );

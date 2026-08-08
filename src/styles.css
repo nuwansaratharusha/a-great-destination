@@ -372,12 +372,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     padding: 25px 0 5px;
   }
   .footer-title span:first-child {
-    font-size: clamp(36px, 10vw, 55px);
+    font-size: clamp(22px, 6.4vw, 42px);
     letter-spacing: -0.015em;
     word-spacing: 0.12em;
   }
   .footer-title span:last-child {
-    font-size: clamp(90px, 24vw, 145px);
+    font-size: clamp(55px, 16vw, 110px);
     letter-spacing: -.08em;
   }
   .footer-bottom { font-size: 10px; }

@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
+import LoadingAnimation from "./LoadingAnimation";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -59,9 +60,10 @@ const faqs = [
   ["Can you customize family or group trips?", "Yes. We design custom multi-room villa stays, family-friendly safaris, and private group experiences with custom tempos."],
 ];
 
-function useExperience(root, view) {
+function useExperience(root, view, loading) {
   useLayoutEffect(() => {
     if (view !== "home") return;
+    if (loading) return;
     let lenis;
     let ticker;
     let removePointerListener;
@@ -218,7 +220,7 @@ function useExperience(root, view) {
       lenis?.destroy();
       scope.revert();
     };
-  }, [root, view]);
+  }, [root, view, loading]);
 }
 
 const experiences = [
@@ -540,10 +542,11 @@ function Header({ active, view, setView }) {
 
 export function App() {
   const root = useRef(null);
+  const [loading, setLoading] = useState(true);
   const [view, setView] = useState("home");
   const [active, setActive] = useState("top");
   const [faq, setFaq] = useState(0);
-  useExperience(root, view);
+  useExperience(root, view, loading);
 
   useEffect(() => {
     if (view !== "home") return;
@@ -556,6 +559,9 @@ export function App() {
   const quote = "We set off to explore the world and found ourselves. A Great Destination did not just guide us through Sri Lanka's breathtaking landmarks—they showed us how to connect with the soul of the land.";
 
   return <div ref={root}>
+    {loading && (
+      <LoadingAnimation onComplete={() => setLoading(false)} />
+    )}
     <div className="cursor-glow" />
     <Header active={active} view={view} setView={setView} />
     {view === "booking" ? (

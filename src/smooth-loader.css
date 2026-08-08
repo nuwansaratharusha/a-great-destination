@@ -1,0 +1,175 @@
+html,
+body,
+#root {
+  margin: 0;
+  background: #ffffff;
+}
+
+html.loader-active,
+html.loader-active body {
+  overflow: hidden;
+}
+
+/* Prevent the hero from flashing before the loader appears. */
+html.loader-active:not(.site-ready) .site-content {
+  visibility: hidden;
+}
+
+.smooth-loader {
+  position: fixed;
+  z-index: 99999;
+  inset: 0;
+  overflow: hidden;
+  isolation: isolate;
+  pointer-events: none;
+  color: #101512;
+  background: #ffffff;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.smooth-loader__collage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  will-change: opacity;
+}
+
+.smooth-loader__stream {
+  position: absolute;
+  inset: 0;
+  height: 290vh;
+  contain: layout paint;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.smooth-loader__card {
+  position: absolute;
+  width: 38vw;
+  height: 52vh;
+  margin: 0;
+  overflow: hidden;
+  background: #eee;
+  contain: paint;
+}
+
+.smooth-loader__card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  user-select: none;
+}
+
+.smooth-loader__card--1 {
+  top: 0;
+  left: 6vw;
+}
+
+.smooth-loader__card--2 {
+  top: 58vh;
+  right: 6vw;
+  height: 46vh;
+}
+
+.smooth-loader__card--3 {
+  top: 112vh;
+  left: 6vw;
+  height: 54vh;
+}
+
+.smooth-loader__card--4 {
+  top: 172vh;
+  right: 6vw;
+  height: 48vh;
+}
+
+.smooth-loader__card--5 {
+  top: 228vh;
+  left: 6vw;
+  height: 50vh;
+}
+
+.smooth-loader__counter {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  display: flex;
+  align-items: flex-start;
+  font: 400 11px/1 Arial, sans-serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  will-change: transform;
+}
+
+.smooth-loader__counter small {
+  margin: 0.05em 0 0 1px;
+  font-size: 0.7em;
+}
+
+.smooth-loader__brand {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+  will-change: transform, opacity;
+}
+
+.smooth-loader__brand img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.smooth-loader__brand span {
+  font: 500 clamp(24px, 2.4vw, 38px) / 0.85 Georgia, serif;
+  letter-spacing: -0.04em;
+}
+
+@media (max-width: 700px) {
+  .smooth-loader__card {
+    width: 58vw;
+  }
+
+  .smooth-loader__card--1,
+  .smooth-loader__card--3,
+  .smooth-loader__card--5 {
+    left: 5vw;
+  }
+
+  .smooth-loader__card--2,
+  .smooth-loader__card--4 {
+    right: 5vw;
+  }
+
+  .smooth-loader__brand {
+    flex-direction: column;
+  }
+
+  .smooth-loader__brand span {
+    font-size: 26px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smooth-loader {
+    display: none;
+  }
+
+  html.loader-active:not(.site-ready) .site-content {
+    visibility: visible;
+  }
+}

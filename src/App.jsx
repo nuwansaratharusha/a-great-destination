@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
-import LoadingAnimation from "./LoadingAnimation";
+import SmoothLoader from "./SmoothLoader";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -560,9 +560,10 @@ export function App() {
 
   return <div ref={root}>
     {loading && (
-      <LoadingAnimation onComplete={() => setLoading(false)} />
+      <SmoothLoader onComplete={() => setLoading(false)} />
     )}
-    <div className="cursor-glow" />
+    <div className="site-content">
+      <div className="cursor-glow" />
     <Header active={active} view={view} setView={setView} />
     {view === "booking" ? (
       <BookingPage setView={setView} />
@@ -726,5 +727,6 @@ export function App() {
       </footer>
     </main>
     )}
+    </div>
   </div>;
 }

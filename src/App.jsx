@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 const A = "/assets/";
 
 const media = {
-  heroVideo: `${A}video/sunrise-over-sigiriya-rock-fortress-in-sri-lanka-a-2026-01-22-13-27-54-utc.mp4`,
+  heroVideo: `${A}background video.mp4`,
   sigiriyaVideo: `${A}video/aerial-rotating-over-lion-s-rock-in-sigiriya-anci-2026-01-22-18-53-57-utc.mp4`,
   ellaTrainVideo: `${A}video/this-is-a-mavic-pro-shot-in-ella-elle-sri-lanka-2026-01-21-02-19-13-utc.mp4`,
   yalaSafariVideo: `${A}video/woman-on-sri-lanka-safari-admire-wild-elephants-2026-06-25-17-03-09-utc.mp4`,

@@ -1,33 +1,182 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMQ9LR639W"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-WMQ9LR639W');
+    </script>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0b2c09" />
     <link rel="icon" type="image/png" href="/assets/logo/A%20Great%20Destination%20logo.png" />
-    <meta name="description" content="A Great Destination Tourism Agency - Curated, slow, custom paths and luxury stays through Sri Lanka's cultural heartlands, tea plantations, and pristine beaches." />
-    
+    <title>Luxury Sri Lanka Holidays & Private Tours | A Great Destination</title>
+    <meta name="description" content="Private, tailor-made luxury journeys through Sri Lanka with handpicked hotels, private chauffeurs, wildlife, wellness, and authentic local experiences." />
+    <link rel="canonical" href="https://agreatdestination.com/" />
+
+    <!-- German/French/Arabic alternates will be added here once those pages actually exist (Phase 3) -->
+    <link rel="alternate" hreflang="en" href="https://agreatdestination.com/" />
+    <link rel="alternate" hreflang="x-default" href="https://agreatdestination.com/" />
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://agreatdestination.com/" />
-    <meta property="og:title" content="A Great Destination — Curated Tourism Agency" />
-    <meta property="og:description" content="A Great Destination Tourism Agency - Curated, slow, custom paths and luxury stays through Sri Lanka's cultural heartlands, tea plantations, and pristine beaches." />
+    <meta property="og:title" content="Luxury Sri Lanka Holidays & Private Tours | A Great Destination" />
+    <meta property="og:description" content="Private, tailor-made luxury journeys through Sri Lanka with handpicked hotels, private chauffeurs, wildlife, wellness, and authentic local experiences." />
     <meta property="og:image" content="https://agreatdestination.com/assets/social-preview.jpg" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://agreatdestination.com/" />
-    <meta property="twitter:title" content="A Great Destination — Curated Tourism Agency" />
-    <meta property="twitter:description" content="A Great Destination Tourism Agency - Curated, slow, custom paths and luxury stays through Sri Lanka's cultural heartlands, tea plantations, and pristine beaches." />
+    <meta property="twitter:title" content="Luxury Sri Lanka Holidays & Private Tours | A Great Destination" />
+    <meta property="twitter:description" content="Private, tailor-made luxury journeys through Sri Lanka with handpicked hotels, private chauffeurs, wildlife, wellness, and authentic local experiences." />
     <meta property="twitter:image" content="https://agreatdestination.com/assets/social-preview.jpg" />
 
-    <title>A Great Destination — Curated Tourism Agency</title>
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "TravelAgency",
+        "name": "A Great Destination",
+        "alternateName": "A Great Destination - Private Travel in Sri Lanka",
+        "description": "Bespoke luxury Sri Lanka travel designer crafting private tours, tailor-made holidays, and experiential stays with local expertise.",
+        "url": "https://agreatdestination.com/",
+        "logo": "https://agreatdestination.com/assets/logo/A%20Great%20Destination%20logo.png",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Colombo 07",
+          "addressLocality": "Colombo",
+          "addressCountry": "LK"
+        },
+        "priceRange": "$$$$",
+        "areaServed": {
+          "@type": "Country",
+          "name": "Sri Lanka"
+        },
+        "knowsAbout": ["Luxury Sri Lanka Holidays", "Tailor-Made Private Tours", "Ayurvedic Wellness Retreats", "Highland Tea Bungalows", "Wildlife Safaris"]
+      }
+    </script>
+
+    <!-- FAQPage structured data — must be kept in sync with the faqs array in src/data.js -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you customize itineraries?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Every tour starts with a personal consultation. Our travel designers tailor stays, private guides, and transport routes to align with your pace and interest."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you assist with visa applications?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. We offer complete assistance for Sri Lanka ETA entry visas, along with local customs and immigration fast-track support."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is included in the tour packages?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Packages generally cover handpicked luxury stays, private chauffeur guides, domestic flights/scenic train bookings, select dining, and national park entries."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the best time to travel to Sri Lanka?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sri Lanka has two monsoon seasons, meaning there is always a dry coast. We recommend the South/West coast from December to April, and the North/East coast from May to October."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you customize family or group trips?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. We design custom multi-room villa stays, family-friendly safaris, and private group experiences with custom tempos."
+            }
+          }
+        ]
+      }
+    </script>
+
     <script>
       document.documentElement.classList.add("loader-active");
     </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Pre-rendered Static Content for SEO & Crawler Indexing before React Hydrates -->
+      <header>
+        <div class="brand">A Great Destination</div>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/#about">About</a>
+          <a href="/destinations">Destinations</a>
+          <a href="/tours">Tours</a>
+          <a href="/#stay">Stays</a>
+          <a href="/#yoga">Approach</a>
+          <a href="/#events">Excursions</a>
+          <a href="/#faq">FAQ</a>
+        </nav>
+      </header>
+      <main>
+        <section class="hero-fallback">
+          <h1>Bespoke Luxury Journeys Through Sri Lanka</h1>
+          <p>Private escapes created around your interests, pace and style — with exceptional stays, private chauffeurs and unforgettable experiences across the island.</p>
+          <a href="/plan-your-journey">Design My Journey</a>
+          <a href="/tours">Explore Signature Journeys</a>
+        </section>
+
+        <section class="why-us-fallback">
+          <h2>Travel Sri Lanka Differently</h2>
+          <ul>
+            <li><strong>100% Private</strong> - No coaches. No shared itineraries.</li>
+            <li><strong>Designed Around You</strong> - Every journey starts from your interests.</li>
+            <li><strong>Handpicked Stays</strong> - Boutique hotels, villas and exceptional resorts.</li>
+            <li><strong>Local Expertise</strong> - Created and managed by specialists on the island.</li>
+            <li><strong>Seamless From Arrival to Departure</strong> - Your chauffeur, guides and experiences are coordinated for you.</li>
+            <li><strong>Here When You Need Us</strong> - Local assistance throughout your journey.</li>
+          </ul>
+        </section>
+
+        <section class="journeys-fallback">
+          <h2>Bespoke Journeys &amp; Custom Itineraries</h2>
+          <article>
+            <h3>Classic Sri Lanka — 10 Nights</h3>
+            <p>Ancient cities, hill-country tea estates and southern beaches — a first, unhurried introduction to the island's cultural heartlands.</p>
+            <a href="/tours">View This Journey</a>
+          </article>
+          <article>
+            <h3>Tea, Wildlife &amp; Southern Coast — 12 Nights</h3>
+            <p>Highland tea country, dawn safaris through Yala's dry-zone forests, and private ocean-view stays along the south coast.</p>
+            <a href="/tours">View This Journey</a>
+          </article>
+          <article>
+            <h3>Wellness &amp; Ayurveda Journey — 14 Nights</h3>
+            <p>A slower, restorative route through the island, woven with authentic Ayurvedic therapies and time to properly arrive.</p>
+            <a href="/tours">View This Journey</a>
+          </article>
+          <article>
+            <h3>Custom Bespoke Itinerary</h3>
+            <p>Honeymoons, multi-generational family journeys, or a Sri Lanka &amp; Maldives combination — every route can be designed entirely around you.</p>
+            <a href="/plan-your-journey">Design a Custom Journey</a>
+          </article>
+        </section>
+      </main>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
